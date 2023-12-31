@@ -1,19 +1,9 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { cache } from "react";
 
-const prismaClientSingleton = () => {
-  return new PrismaClient();
-};
-
-declare global {
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
-}
-
-const prisma = globalThis.prisma ?? prismaClientSingleton();
-
+const prisma = new PrismaClient().$extends(withAccelerate());
 export default prisma;
-
-if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
 
 export const getSpaces = cache(async (email: string) => {
   const spaces = await prisma.space.findMany({
@@ -26,6 +16,11 @@ export const getSpaces = cache(async (email: string) => {
     take: 24,
     orderBy: {
       updatedAt: "desc",
+    },
+
+    cacheStrategy: {
+      ttl: 60,
+      swr: 120,
     },
   });
 
@@ -40,6 +35,11 @@ export const getSpace = cache(async (id: string) => {
 
     include: {
       projects: true,
+    },
+
+    cacheStrategy: {
+      ttl: 60,
+      swr: 120,
     },
   });
 
