@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  spaces    Space[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Space {
+  id        String    @id @default(uuid())
+  name      String
+  tags      Tag[]
+  projects  Project[]
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Tag {
+  id     String  @id @default(uuid())
+  name   String
+  spaces Space[]
+}
+
+// Spaces are the top level of organization in the app.
+// A space can have projects, notes, tasks, lectures, contacts, bookmarks, etc.
+// Spaces can be grouped together by tags - uni, work, hobbies, etc.
+
+// Space items:
+// - Goal
+// - Task
+// - Note
+// - Event
+// - Project
+// - Contact
+// - Bookmark
+
+// Goal
+// A goal is a long term objective to be achieved - a degree, a promotion, a new skill, etc.
+
+// Task
+// A task is a single item of work to be done - a paragraph to write, an article to read, etc.
+
+// Note
+// A note is a piece of information to be remembered - a quote, a formula, a definition, etc.
+
+// Event
+// An event is a single occurrence in time - a lecture, a meeting, a deadline, etc.
+
+// Project
+// A project is the piece of work being done - an essay, a presentation, a report, etc.
+
+// Contact
+// A contact is a person to be contacted - a lecturer, a colleague, a friend, etc.
+
+// Bookmark
+// A bookmark is a link to a resource - a website, a video, a book, etc.
+
+model Project {
+  id        String   @id @default(uuid())
+  name      String
+  tasks     Task[]
+  ideas     Idea[]
+  sources   Source[]
+  spaceId   String
+  space     Space    @relation(fields: [spaceId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// A task is a single item of work to be done in a project - a paragraph to write, an article to read, etc.
+model Task {
+  id        String   @id @default(uuid())
+  name      String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// An topic or concept that is being explored in a project - an argument, claim, hypothesis, etc.
+model Idea {
+  id        String   @id @default(uuid())
+  name      String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// A piece of evidence used to support a topic in a project - a journal article, a book, a website, etc.
+model Source {
+  id        String   @id @default(uuid())
+  name      String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
