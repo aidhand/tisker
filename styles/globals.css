@@ -6,6 +6,6 @@ html {
 
 body {
   @apply text-black dark:text-white;
-  @apply bg-zinc-200 dark:bg-zinc-900;
+  @apply bg-zinc-100 dark:bg-zinc-900;
 
 }

@@ -1,0 +1,25 @@
+.head {
+  @apply my-4 py-4;
+  @apply flex items-end justify-between;
+}
+
+.seperator {
+  @apply my-8;
+  @apply border-b border-zinc-300 dark:border-zinc-700;
+}
+
+.body {
+  @apply my-4 py-4;
+
+  .list {
+    @apply grid gap-4;
+    @apply grid-cols-1 md:grid-cols-2 xl:grid-cols-3;
+
+    .item {
+      @apply p-4 rounded;
+      @apply bg-gray-200 dark:bg-zinc-800;
+    }
+  }
+}
+
+.foot {}

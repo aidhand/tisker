@@ -9,4 +9,8 @@ export default defineConfig({
       dark: "media",
     }),
   ],
+
+  shortcuts: {
+    tag: "px-2 py-1 rounded",
+  },
 });
