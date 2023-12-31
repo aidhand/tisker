@@ -1,8 +1,3 @@
-.head {
-  @apply my-4 py-4;
-  @apply flex items-end justify-between;
-}
-
 .seperator {
   @apply my-8;
   @apply border-b border-zinc-300 dark:border-zinc-700;

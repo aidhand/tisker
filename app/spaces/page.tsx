@@ -4,22 +4,21 @@ import type { Space } from "@prisma/client";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import PageHead from "@/components/page-head";
 import styles from "./spaces.module.css";
 
+export const runtime = "edge";
 export const revalidate = 60;
 
 export default async function Page() {
   return (
     <>
-      <div className={styles.head}>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Spaces</h1>
-          <h4>Organise your projects, tasks, notes, etc</h4>
-        </div>
-        <div>
-          <Link href="/spaces/new">Create</Link>
-        </div>
-      </div>
+      <PageHead
+        title="Spaces"
+        description="It could be a workplace, hobby, or class. Spaces help you stay organised."
+      >
+        <Link href="/spaces/new">New Space</Link>
+      </PageHead>
 
       <hr className={styles.seperator} />
 
