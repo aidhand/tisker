@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import Loading from "../loading";
 import * as styles from "./page.css";
 
-import { getSpaces } from "@/app/lib/prisma";
+import { getSpaces } from "@/lib/prisma";
 import { Space } from "@prisma/client";
 import Link from "next/link";
 
