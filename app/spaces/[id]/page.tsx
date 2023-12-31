@@ -1,4 +1,6 @@
+import PageHead from "@/components/page-head";
 import { getSpace } from "@/lib/prisma";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export const runtime = "edge";
@@ -13,9 +15,14 @@ export default async function Page({
 }) {
   return (
     <>
-      <Suspense>
-        <SpaceInfo id={params.id} />
-      </Suspense>
+      <PageHead title="Create a space" description="">
+        <Link href="/spaces">All spaces</Link>
+      </PageHead>
+      <div>
+        <Suspense>
+          <SpaceInfo id={params.id} />
+        </Suspense>
+      </div>
     </>
   );
 }

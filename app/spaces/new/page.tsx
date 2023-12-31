@@ -1,30 +1,14 @@
-import { getSpace } from "@/lib/prisma";
-import { Suspense } from "react";
+import PageHead from "@/components/page-head";
+import Link from "next/link";
 
 export const revalidate = 60;
 
-export default async function Page({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
+export default async function Page() {
   return (
     <>
-      <Suspense>
-        <SpaceInfo id={params.id} />
-      </Suspense>
+      <PageHead title="Create a space" description="">
+        <Link href="/spaces">All spaces</Link>
+      </PageHead>
     </>
-  );
-}
-
-async function SpaceInfo({ id }: { id: string }) {
-  const space = await getSpace(id);
-
-  return (
-    <div>
-      <pre>{JSON.stringify(space, null, "\t")}</pre>
-    </div>
   );
 }

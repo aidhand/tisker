@@ -20,8 +20,6 @@ export default async function Page() {
         <Link href="/spaces/new">New Space</Link>
       </PageHead>
 
-      <hr className={styles.seperator} />
-
       <div className={styles.body}>
         <Suspense>
           <List />
