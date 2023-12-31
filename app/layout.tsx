@@ -5,8 +5,6 @@ import Header from "@/components/header";
 import "@/styles/globals.css";
 import "@/styles/reset.css";
 
-import * as styles from "@/styles/layout.css";
-
 // TODO: Use Vanilla Extract's `fontFace` API
 import { Inter } from "next/font/google";
 
@@ -24,10 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={styles.body}>
+      <body>
         <Header />
 
-        <main className={styles.container}>{children}</main>
+        <main className="container mx-auto">{children}</main>
 
         <footer></footer>
       </body>

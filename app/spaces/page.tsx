@@ -1,63 +1,62 @@
 import { Suspense } from "react";
+import Loading from "../loading";
 import * as styles from "./page.css";
-import { Spaces } from "./spaces";
+
+import { getSpaces } from "@/app/lib/prisma";
+import { Space } from "@prisma/client";
+import Link from "next/link";
+
+export const revalidate = 60;
 
 export default async function Page() {
   return (
     <>
-      <div className={styles.head}>
+      <div className={styles.wrapper}>
         <div>
-          <h1 className={styles.title}>Spaces</h1>
-          <h4 className={styles.descriptor}>
+          <h1 className={styles.head.title}>Spaces</h1>
+          <h4 className={styles.head.description}>
             Organise your projects, tasks, notes, etc
           </h4>
         </div>
-
-        {/* TODO: Move these below the fold */}
-        <div className={styles.aside}>
-          <div>
-            <input
-              type="text"
-              name="filter"
-              placeholder="Filter"
-              className="p-2 w-48 bg-inherit border border-zinc-300 dark:border-zinc-700 rounded-md"
-            />
-          </div>
-
-          <div>
-            <select
-              name="tags"
-              className="p-2 w-40 bg-inherit border border-zinc-300 dark:border-zinc-700 rounded-md"
-            >
-              <option value="all">All</option>
-              <option value="work">Work</option>
-              <option value="university">University</option>
-              <option value="hobbies">Hobbies</option>
-              <option value="health">Health</option>
-            </select>
-          </div>
-
-          <div>
-            <select
-              name="sort"
-              className="p-2 w-32 bg-inherit border border-zinc-300 dark:border-zinc-700 rounded-md"
-            >
-              <option value="recent">Recent</option>
-              <option value="new-to-old">New to old</option>
-              <option value="old-to-new">Old to new</option>
-              <option value="alpha-a-z">Alphabetical (A-Z)</option>
-              <option value="alpha-z-a">Alphabetical (Z-A)</option>
-              <option value="custom-sorting">Custom sorting</option>
-            </select>
-          </div>
-        </div>
       </div>
+
       <hr className={styles.seperator} />
-      <div>
-        <Suspense>
-          <Spaces user={1} />
+
+      <div className={styles.wrapper}>
+        <Suspense fallback={<Loading />}>
+          <List />
         </Suspense>
       </div>
     </>
+  );
+}
+
+async function List() {
+  // Get a list of spaces for this user
+  const spaces = await getSpaces("me@aidhan.net");
+
+  return (
+    <div className={styles.list}>
+      {spaces.map((space, index) => (
+        <Item key={index} space={space} />
+      ))}
+    </div>
+  );
+}
+
+async function Item({ space }: { space: Space }) {
+  return (
+    <div className="bg-zinc-100 dark:bg-zinc-950">
+      <Link href={`/spaces/${space.id}`}>
+        <div className="p-4 flex justify-between items-start">
+          <h2 className="text-xl font-semibold">{space.name}</h2>
+          <ul className="flex gap-4">
+            <li className="px-2 py-1 bg-red-500/20">tag</li>
+          </ul>
+        </div>
+      </Link>
+
+      <div className="p-4"></div>
+    </div>
   );
 }

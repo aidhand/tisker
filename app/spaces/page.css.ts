@@ -1,47 +1,49 @@
+import { flexbox } from "@/components/ui/flexbox.css";
 import { sprinkles } from "@/styles/sprinkles.css";
 import { style } from "@vanilla-extract/css";
 
-import { flexbox } from "@/components/ui/flexbox.css";
-import * as layout from "@/styles/layout.css";
-
-export const head = style([
+export const wrapper = style([
   flexbox,
   sprinkles({
-    marginY: "8",
-    gap: "8",
+    padding: "2",
   }),
 ]);
 
-export const title = style({
-  fontSize: "2rem",
-  fontWeight: "bold",
+export const head = {
+  title: style({
+    fontSize: "2rem",
+    fontWeight: "bold",
+  }),
+  description: style({}),
+};
+
+export const seperator = sprinkles({
+  marginY: "8",
+  borderColor: {
+    lightMode: "grey-300",
+    darkMode: "grey-700",
+  },
 });
 
-export const descriptor = style({});
-
-export const aside = style([
-  flexbox,
+export const list = style([
+  sprinkles({
+    gap: "4",
+  }),
   {
-    textAlign: "right",
+    width: "100%",
+    display: "grid",
+    gridAutoRows: "minmax(max-content, 1fr)",
+    gridTemplateColumns: "repeat(auto-fill, minmax(24rem, 1fr))",
   },
 ]);
 
-export const seperator = style([
-  // TODO: Move seperator to own UI component
-  layout.seperator,
+export const item = style([
   sprinkles({
-    marginY: "8",
+    background: {
+      lightMode: "grey-200",
+      darkMode: "grey-800",
+    },
   }),
 ]);
 
-export const body = style([
-  flexbox,
-  {
-    flexWrap: "wrap",
-    flexDirection: "column",
-  },
-  sprinkles({
-    marginY: "8",
-    gap: "8",
-  }),
-]);
+export const itemHead = style([]);
