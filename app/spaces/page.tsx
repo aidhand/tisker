@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Loading from "../loading";
 import * as styles from "./page.css";
 
 import { getSpaces } from "@/lib/prisma";
@@ -23,7 +22,7 @@ export default async function Page() {
       <hr className={styles.seperator} />
 
       <div className={styles.wrapper}>
-        <Suspense fallback={<Loading />}>
+        <Suspense>
           <List />
         </Suspense>
       </div>

@@ -31,3 +31,17 @@ export const getSpaces = cache(async (email: string) => {
 
   return spaces;
 });
+
+export const getSpace = cache(async (id: string) => {
+  const space = await prisma.space.findUnique({
+    where: {
+      id,
+    },
+
+    include: {
+      projects: true,
+    },
+  });
+
+  return space;
+});
